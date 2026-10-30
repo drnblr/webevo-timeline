@@ -1,0 +1,387 @@
+<style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1120;
+      color: #f1f5f9;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
+
+    header p {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      font-size: clamp(26px, 5vw, 42px);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .frontend-dot {
+      background: #4ade80;
+    }
+
+    .backend-dot {
+      background: #60a5fa;
+    }
+
+    .timeline-panel,
+    .details,
+    .reflection {
+      background: #151e30;
+      border: 1px solid #29364d;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 24px;
+    }
+
+    #timeline {
+      background: white;
+      border-radius: 8px;
+      color: #172033;
+      overflow: hidden;
+    }
+
+    .hint {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .details h2,
+    .reflection h2 {
+      margin-top: 0;
+    }
+
+    #eventTitle {
+      color: #86efac;
+    }
+
+    #eventYear {
+      color: #4470ff;
+      font-weight: bold;
+    }
+
+    .detail-label {
+      color: #86efac;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .detail-text {
+      color: #e2e8f0;
+      line-height: 1.7;
+      margin-top: 0;
+    }
+
+    .reflection p {
+      color: #dbe4f0;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #ffffff;
+      font-size: 15px;
+    }
+    
+/* Frontend and backend milestone colors */
+.vis-item.frontend {
+  background: #bbf7d0 !important;
+  border: 1px solid #4ade80 !important;
+  color: #166534 !important;
+}
+.vis-item.backend {
+  background: #bfdbfe !important;
+  border: 1px solid #60a5fa !important;
+  color: #1e40af !important;
+}
+
+/* Selected milestone */
+.vis-item.vis-selected {
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
+}
+
+/* group labels config */
+.vis-labelset .vis-label.frontend,
+.vis-labelset .vis-label.backend {
+  background: transparent !important;
+  color: #334155 !important;
+}
+
+    .vis-item.vis-selected {
+      border-width: 3px;
+    }
+
+.timeline-panel {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.timeline-panel h2 {
+  margin-top: 0;
+  color: #feffff;
+}
+
+.vis-timeline {
+  border: none !important;
+  font-family: Arial, sans-serif;
+}
+
+.vis-time-axis .vis-text {
+  color: #334155;
+  font-weight: 600;
+}
+
+.vis-time-axis .vis-grid.vis-minor {
+  border-color: #e2e8f0;
+}
+
+.vis-time-axis .vis-grid.vis-major {
+  border-color: #cbd5e1;
+}
+
+.vis-labelset .vis-label {
+  font-weight: bold;
+}
+
+.vis-item {
+  border-radius: 7px !important;
+  padding: 5px !important;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.vis-item:hover {
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+}
+
+.vis-item.vis-selected {
+  border-width: 3px !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+.details,
+.reflection {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+.details h2 {
+  line-height: 1.4;
+}
+
+.detail-label {
+  margin-top: 22px;
+}
+
+.reflection a {
+  color: #93c5fd;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reflection a:hover {
+  color: #bfdbfe;
+}
+/* Collapsible reflection and references */
+
+.collapsible summary {
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 4px 0;
+  list-style-position: inside;
+  color: #86efac;
+}
+
+.collapsible summary:hover {
+  color: #bbf7d0;
+}
+
+.collapsible[open] summary {
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #334155;
+}
+
+.collapsible > :not(summary) {
+  line-height: 1.8;
+}
+
+
+
+/* theme toggle in the top right corner */
+header {
+  position: relative;
+}
+
+#themeToggle {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(249, 249, 250, 0.45);
+  border-radius: 50%;
+  background: rgb(253, 250, 250);
+  color: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.9s ease;
+}
+
+#themeToggle:hover {
+  background: #cbd5e1;
+}
+
+#themeToggle:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+/* theme button */
+
+body.light-mode {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+body.light-mode #themeToggle {
+  background:#334155;
+  border-color: #94a3b8;
+  color: #f8fafc;
+}
+
+body.light-mode #themeToggle:hover {
+  background: #64748b;
+}
+
+body.light-mode header {
+  background: #f8fafc;
+}
+
+body.light-mode header p {
+  color: #334155;
+}
+
+body.light-mode .timeline-panel,
+body.light-mode .details,
+body.light-mode .reflection {
+  background: #ffffff;
+  border-color: #dbeafe;
+  box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+body.light-mode .timeline-panel h2,
+body.light-mode .details h2,
+body.light-mode .reflection h2 {
+  color: #0f172a;
+}
+
+body.light-mode .hint,
+body.light-mode .detail-text,
+body.light-mode .reflection p {
+  color: #334155;
+}
+
+body.light-mode .detail-label {
+  color: #166534;
+}
+
+body.light-mode .collapsible summary {
+  color: #166534;
+}
+
+body.light-mode .collapsible summary:hover {
+  color: #15803d;
+}
+
+body.light-mode .collapsible[open] summary {
+  border-bottom-color: #dbeafe;
+}
+
+body.light-mode .reflection a {
+  color: #1d4ed8;
+}
+
+body.light-mode footer {
+  color: #000000;
+}
+
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  header {
+    padding-top: 35px;
+  }
+
+  header p {
+    font-size: 14px;
+  }
+
+  .timeline-panel,
+  .details,
+  .reflection {
+    padding: 14px;
+  }
+
+  #timeline {
+    font-size: 11px;
+  }
+
+  .vis-item {
+    font-size: 10px;
+    padding: 3px !important;
+  }
+
+  .legend {
+    justify-content: flex-start;
+    gap: 12px;
+  }
+}
+
+
+  </style>
